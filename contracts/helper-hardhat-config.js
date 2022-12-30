@@ -37,10 +37,14 @@ const networkConfig = {
 }
 
 const developmentChains = ["hardhat", "localhost"]
-const VERIFICATION_BLOCK_CONFIRMATIONS = 6
+const VERIFICATION_BLOCK_CONFIRMATIONS = 1 //TODO: make it 6 post-dev
+const DECIMALS = "18"
+const INITIAL_PRICE = "200000000000000000000"
 
 module.exports = {
     networkConfig,
     developmentChains,
     VERIFICATION_BLOCK_CONFIRMATIONS,
+    DECIMALS,
+    INITIAL_PRICE,
 }

@@ -1,13 +1,10 @@
 require("dotenv").config()
+require("@nomiclabs/hardhat-etherscan")
+require("solidity-coverage")
+require("hardhat-deploy")
 
-const MAINNET_RPC_URL =
-    process.env.MAINNET_RPC_URL ||
-    process.env.ALCHEMY_MAINNET_RPC_URL ||
-    "https://eth-mainnet.alchemyapi.io/v2/your-api-key"
-const POLYGON_MAINNET_RPC_URL =
-    process.env.POLYGON_MAINNET_RPC_URL || "https://polygon-mainnet.alchemyapi.io/v2/your-api-key"
-const GOERLI_RPC_URL =
-    process.env.GOERLI_RPC_URL || "https://eth-goerli.alchemyapi.io/v2/your-api-key"
+const MAINNET_RPC_URL = process.env.MAINNET_RPC_URL || process.env.ALCHEMY_MAINNET_RPC_URL || "h"
+const GOERLI_RPC_URL = process.env.GOERLI_RPC_URL || ""
 const PRIVATE_KEY = process.env.PRIVATE_KEY
 // optional
 const MNEMONIC = process.env.MNEMONIC || "Your mnemonic"
@@ -57,11 +54,6 @@ module.exports = {
             //   },
             chainId: 1,
         },
-        polygon: {
-            url: POLYGON_MAINNET_RPC_URL,
-            accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
-            chainId: 137,
-        },
     },
     defaultNetwork: "hardhat",
     etherscan: {
@@ -83,6 +75,12 @@ module.exports = {
         tests: "./test",
         cache: "./build/cache",
         artifacts: "./build/artifacts",
+    },
+    namedAccounts: {
+        deployer: {
+            default: 0, // here this will by default take the first account as deployer
+            1: 0, // similarly on mainnet it will take the first account as deployer. Note though that depending on how hardhat network are configured, the account 0 on one network can be different than on another
+        },
     },
     mocha: {
         timeout: 200000, // 200 seconds max for running tests
