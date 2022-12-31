@@ -1,13 +1,12 @@
 const { assert, expect } = require("chai")
 const { network, deployments, ethers } = require("hardhat")
 const { developmentChains } = require("../../helper-hardhat-config")
-const eventemitter2 = require("chai-eventemitter2")
 
 !developmentChains.includes(network.name)
     ? describe.skip
     : describe("GPT NFT Unit Tests", () => {
           let gptNft, deployer
-          const uri = "QmfVMAmNM1kDEBYrC2TPzQDoCRFH6F5tE1e9Mr4FkkR5Xr"
+          const URI = "QmfVMAmNM1kDEBYrC2TPzQDoCRFH6F5tE1e9Mr4FkkR5Xr"
           const baseUri = "https://ipfs.io/ipfs/"
 
           beforeEach(async () => {
@@ -30,29 +29,44 @@ const eventemitter2 = require("chai-eventemitter2")
 
           describe("Mint NFT", () => {
               beforeEach(async () => {
-                  const txResponse = await gptNft.mintNft(deployer.address, uri)
+                  const txResponse = await gptNft.mintNft(deployer.address, URI)
                   await txResponse.wait(1)
               })
               it("Allows users to mint an NFT, and updates token counter", async () => {
                   let tokenCounter = await gptNft.getTokenCounter()
                   assert.equal(tokenCounter.toString(), "1")
 
-                  await gptNft.mintNft(deployer.address, uri)
+                  await gptNft.mintNft(deployer.address, URI)
                   tokenCounter = await gptNft.getTokenCounter()
 
                   assert.equal(tokenCounter.toString(), "2")
               })
               it("creates the NFT and emits an event", async () => {
-                  await expect(gptNft.mintNft(deployer.address, uri)).to.emit(gptNft, "NftMinted")
+                  await expect(gptNft.mintNft(deployer.address, URI)).to.emit(gptNft, "NftMinted")
               })
               it("returns token URI object as string", async () => {
                   const tokenUri = await gptNft.tokenURI(1)
-                  assert.equal(tokenUri, baseUri + uri)
+                  assert.equal(tokenUri, baseUri + URI)
               })
+
               it("reverts with error - GptNftMetadata__URI_QueryFor_NonExistentToken when tokenId doesnt exist", async () => {
                   await expect(gptNft.tokenURI(42)).to.be.revertedWith(
                       "GptNftMetadata__URI_QueryFor_NonExistentToken"
                   )
               })
           })
+
+          //TODO: figure out how to test internal functions
+          //   describe("Burn", () => {
+          //       beforeEach(async () => {
+          //           const txResponse = await gptNft.mintNft(deployer.address, uri)
+          //           await txResponse.wait(1)
+          //       })
+          //       it("Correctly burns a NFT", async () => {
+          //           gptNft2 = await ethers.getContract("GptNft")
+          //           const burn = await gptNft2._burn(1)
+          //           console.log("burn: ", burn)
+          //       })
+          //       it("Throws when trying to burn a non-existent NFT", async () => {})
+          //   })
       })
