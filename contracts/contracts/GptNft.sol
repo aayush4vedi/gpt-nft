@@ -16,73 +16,39 @@ contract GptNft is ERC721, ERC721URIStorage, Ownable {
 
     Counters.Counter private _tokenIdCounter;
 
-    mapping(uint256 => string) private s_tokenIdToTokenUri; //tokenId -> tokenURI
-    mapping(uint256 => string) private s_tokenIdToTokenTitle; //tokenId -> title
-    mapping(uint256 => uint256) private s_tokenIdToTokenPrice; //tokenId -> price
+    mapping(uint256 => string) private s_tokenIdToUri; //tokenId -> tokenURI
 
     constructor() ERC721("GptNft", "GFT") {}
 
-    function mintItem(
-        address to,
-        string memory imageURI,
-        string memory title,
-        uint256 price
-    ) public {
+    function mintNft(address to, string memory tokenUri) public {
         _tokenIdCounter.increment();
         uint256 tokenId = _tokenIdCounter.current();
-        s_tokenIdToTokenUri[tokenId] = imageURI;
-        s_tokenIdToTokenTitle[tokenId] = title;
-        s_tokenIdToTokenPrice[tokenId] = price;
+        s_tokenIdToUri[tokenId] = tokenUri;
         _safeMint(to, tokenId);
-        _setTokenURI(tokenId, imageURI);
-        emit NftMinted(tokenId, imageURI);
+        _setTokenURI(tokenId, tokenUri);
+        emit NftMinted(tokenId, tokenUri);
     }
 
     function tokenURI(
         uint256 tokenId
-    )
-        public
-        view
-        virtual
-        override(ERC721, ERC721URIStorage)
-        returns (string memory)
-    {
+    ) public view override(ERC721, ERC721URIStorage) returns (string memory) {
         if (!_exists(tokenId)) {
             revert GptNftMetadata__URI_QueryFor_NonExistentToken();
         }
-        string memory imageURI = s_tokenIdToTokenUri[tokenId];
-        string memory title = s_tokenIdToTokenTitle[tokenId];
-        uint256 price = s_tokenIdToTokenPrice[tokenId];
-        return
-            string(
-                abi.encodePacked(
-                    _baseURI(),
-                    Base64.encode(
-                        bytes(
-                            abi.encodePacked(
-                                '{"title":"',
-                                title,
-                                '", "price":"',
-                                price,
-                                '","image":"',
-                                imageURI,
-                                '"}'
-                            )
-                        )
-                    )
-                )
-            );
+        return super.tokenURI(tokenId);
     }
-
-    // The following functions are overrides required by Solidity.
 
     function _baseURI() internal pure override returns (string memory) {
         return "https://ipfs.io/ipfs/";
     }
 
-    function _burn(
-        uint256 tokenId
-    ) internal override(ERC721, ERC721URIStorage) {
+    // The following functions are overrides required by Solidity.
+
+    function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
         super._burn(tokenId);
+    }
+
+    function getTokenCounter() public view returns (uint256) {
+        return _tokenIdCounter.current();
     }
 }
