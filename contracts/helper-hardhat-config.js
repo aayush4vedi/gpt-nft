@@ -40,6 +40,8 @@ const developmentChains = ["hardhat", "localhost"]
 const VERIFICATION_BLOCK_CONFIRMATIONS = 1 //TODO: make it 6 post-dev
 const DECIMALS = "18"
 const INITIAL_PRICE = "200000000000000000000"
+const frontEndContractsFile = "../client/constants/networkMapping.json"
+const frontEndAbiLocation = "../client/constants/"
 
 module.exports = {
     networkConfig,
@@ -47,4 +49,6 @@ module.exports = {
     VERIFICATION_BLOCK_CONFIRMATIONS,
     DECIMALS,
     INITIAL_PRICE,
+    frontEndContractsFile,
+    frontEndAbiLocation,
 }
