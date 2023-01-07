@@ -11,7 +11,7 @@ const styleDark = {
 
 const Main = () => {
     //can it's repition be removed?
-    const { colorMode, toggleColorMode } = useStyle()
+    const { colorMode } = useStyle()
     const [style, setStyle] = useState(styleLight)
     useEffect(() => {
         if (colorMode === "light") {
@@ -24,7 +24,6 @@ const Main = () => {
     return (
         <div className={style.wrapper}>
             <h1>This is the Main</h1>
-            <button onClick={() => toggleColorMode()}>Change Theme</button>
         </div>
     )
 }
