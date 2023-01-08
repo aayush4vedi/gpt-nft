@@ -21,6 +21,7 @@
             "@/styles/*": ["styles/*"],
             "@/utils/*": ["utils/*"],
             "@/constants/*": ["constants/*"],
+            "@/context/*": ["context/*"],
             "@/assets/*": ["public/assets/*"],
         }
     },

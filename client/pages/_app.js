@@ -1,5 +1,8 @@
 import "../styles/globals.css"
-import { ProvideStyle } from "../context/style"
+import { ThemeProvider } from "next-themes"
+import { ProvideSearch } from "@/context/search"
+import { ProvideAuth } from "@/context/auth"
+import { ProvidePage } from "@/context/page"
 
 //////////////////////////////////////////
 /////////////// Color Palette
@@ -15,9 +18,15 @@ import { ProvideStyle } from "../context/style"
 
 const MyApp = ({ Component, pageProps }) => {
     return (
-        <ProvideStyle>
-            <Component {...pageProps} />
-        </ProvideStyle>
+        <ProvideAuth>
+            <ThemeProvider attribute="class">
+                <ProvideSearch>
+                    <ProvidePage>
+                        <Component {...pageProps} />
+                    </ProvidePage>
+                </ProvideSearch>
+            </ThemeProvider>
+        </ProvideAuth>
     )
 }
 

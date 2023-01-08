@@ -1,29 +1,20 @@
-import { useStyle } from "../context/style"
 import { useState, useEffect } from "react"
+import Mint from "@/components/Mint"
+import Buy from "@/components/Buy"
+import Account from "@/components/Account"
 
-const styleLight = {
-    wrapper: `p-4 w-screen flex justify-between items-center`,
+const style = {
+    wrapper: `mx-2 mt-[5rem] w-92 sm:w-screen flex items-center justify-center drop-shadow-3xl`,
+    content: `bg-[#FFFFFF] dark:bg-[#000000] w-[30rem] rounded-3xl dark:border-2 dark:border-gray-800`,
 }
 
-const styleDark = {
-    wrapper: `p-4 w-screen flex justify-between items-center bg-[#28242B] text-white`,
-}
-
-const Main = () => {
-    //can it's repition be removed?
-    const { colorMode } = useStyle()
-    const [style, setStyle] = useState(styleLight)
-    useEffect(() => {
-        if (colorMode === "light") {
-            setStyle(styleLight)
-        } else {
-            setStyle(styleDark)
-        }
-    }, [colorMode])
-
+const Main = (props) => {
+    const { pageType } = props
     return (
         <div className={style.wrapper}>
-            <h1>This is the Main</h1>
+            <div className={style.content}>
+                {pageType === "mint" ? <Mint /> : pageType === "buy" ? <Buy /> : <Account />}
+            </div>
         </div>
     )
 }
