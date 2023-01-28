@@ -11,7 +11,8 @@ import Jazzicon, { jsNumberForAddress } from "react-jazzicon"
 import logo from "@/assets/gpt-nft-marketplace-logo.svg"
 
 const style = {
-    wrapper: `px-4 w-screen flex flex-col items-center backdrop-blur-sm bg-[#ffffff60] dark:bg-[#ffffff08] dark:text-white`,
+    wrapper: `sticky top-0 z-10 px-4 py-8 w-screen flex flex-col items-center dark:text-white`,
+    wrapper2: `sticky top-0 z-10 px-4 py-2 pb-6 w-screen flex flex-col items-center backdrop-blur-2xl bg-gradient-to-r from-rose-100 via-sky-100 to-white dark:bg-gradient-to-r dark:from-zinc-800 dark:via-gray-900 dark:to-black dark:text-white ease-in duration-200`,
     heroContainer: `px-4 w-screen mt-2 flex flex-row justify-between`,
     navBarContainer: `w-screen flex flex-row justify-between mt-0 md:mt-5 invisible md:visible`,
     headerLogo: `flex items-center justify-start text-black text-md md:text-xl font-lato font-bold text-gray-900 dark:text-teal-400`,
@@ -52,17 +53,56 @@ const Header = (props) => {
         console.log("selectedNav: ", selectedNav)
     }, [selectedNav])
 
+    //handle sticky header scroll
+    const [headerClass, setHeaderClass] = useState(style.wrapper)
+    const [showHeaderExtraContent, setShowHeaderExtraContent] = useState(true)
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 100) {
+                setHeaderClass(style.wrapper2)
+                setShowHeaderExtraContent(false)
+            } else {
+                setHeaderClass(style.wrapper)
+                setShowHeaderExtraContent(true)
+            }
+        }
+
+        window.addEventListener("scroll", handleScroll)
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll)
+        }
+    }, [])
+
     return (
-        <div className={style.wrapper}>
+        <div className={headerClass}>
             <div className={style.heroContainer}>
                 <div className={style.headerLogo}>
-                    <Image src={logo} alt="GPTastic NFTs" height={40} width={40} />
-                    <h1 className="ml-2 leading-4">GPTastic NFTs</h1>
+                    {/* <Image src={logo} alt="GPTastic NFTs" height={20} width={40} /> */}
+                    <h1
+                    
+                        className={`ml-2 leading-4 ${
+                            showHeaderExtraContent ? "visible" : "hidden"
+                        }`}
+                    >
+                        GPTastic NFTs
+                    </h1>
+
+                    <h1
+                        className={`ml-4 text-4xl ${
+                            showHeaderExtraContent ? "hidden" : "visible"
+                        }`}
+                    >
+                        GPTastic NFTs
+                    </h1>
                 </div>
 
                 {/**============================= Search Bar ================== */}
                 {/* TODO: handle search */}
-                <div className={style.searchBar}>
+                <div
+                    className={`${style.searchBar} ${showHeaderExtraContent ? "" : "md:invisible basis-1/3"}`}
+                    // className={style.searchBar}
+                >
                     <form className={style.searchForm}>
                         <div class="relative">
                             <div className={style.searchIcon}>
@@ -110,7 +150,7 @@ const Header = (props) => {
                 </div>
             </div>
             {/*======================== navbar section ==================================== */}
-            <div className={style.navBarContainer}>
+            {/* <div className={style.navBarContainer}>
                 <div className={style.nav}>
                     <div className={style.navContainer}>
                         <div
@@ -148,7 +188,7 @@ const Header = (props) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

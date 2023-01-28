@@ -4,17 +4,6 @@ import { ProvideSearch } from "@/context/search"
 import { ProvideAuth } from "@/context/auth"
 import { ProvidePage } from "@/context/page"
 
-//////////////////////////////////////////
-/////////////// Color Palette
-//
-//
-//
-//
-//
-//
-//
-//
-//////////////////////////////////////////
 
 const MyApp = ({ Component, pageProps }) => {
     return (
