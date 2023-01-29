@@ -1,27 +1,50 @@
-import { useState, useEffect } from "react"
-import Mint from "@/components/Mint"
-import Buy from "@/components/Buy"
-import Account from "@/components/Account"
+import React, { useState } from "react"
+import Head from "next/head"
 
-const style = {
-    wrapper: `position:absolute pt-200 mx-2 mt-[5rem] w-92 sm:w-screen flex items-center justify-center drop-shadow-3xl scroll-smooth scroll-mt-50`,
-    // wrapper: `mx-2 mt-[5rem] w-92 sm:w-screen flex items-center justify-center drop-shadow-3xl scroll-smooth scroll-mt-50`,
-    content: `bg-[#FFFFFF] dark:bg-[#000000] w-[30rem] rounded-3xl dark:border-2 dark:border-gray-800`,
-}
+import RightBar from "@/components/RightBar"
+import Hero from "@/components/Hero"
+import Gallery from "@/components/Gallery"
 
-const Main = (props) => {
-    const { pageType } = props
+const Main = () => {
     return (
-        <div className={style.wrapper}>
-            <div className={style.content}>
-                {pageType === "mint" ? <Mint /> : pageType === "buy" ? <Buy /> : <Account />}
-                {pageType === "mint" ? <Mint /> : pageType === "buy" ? <Buy /> : <Account />}
-                {pageType === "mint" ? <Mint /> : pageType === "buy" ? <Buy /> : <Account />}
-                {pageType === "mint" ? <Mint /> : pageType === "buy" ? <Buy /> : <Account />}
-                {pageType === "mint" ? <Mint /> : pageType === "buy" ? <Buy /> : <Account />}
-                {pageType === "mint" ? <Mint /> : pageType === "buy" ? <Buy /> : <Account />}
+        <>
+            <Head>
+                <style>
+                    {`
+                    .overflow-y-auto::-webkit-scrollbar {
+                        width: 0;
+                        background-color: transparent;
+                    }
+                    `}
+                </style>
+            </Head>
+            <div className="flex justify-between pb-20 ">
+                <div className="h-screen overflow-y-auto  lg:w-3/4 scrollbar-hide">
+                    <div>
+                        <Hero />
+                    </div>
+                    <div className="px-20 pt-5 md:px-10">
+                        <Gallery />
+                    </div>
+                </div>
+
+                {/* =========================== account section - Rightbar or buttons =========================== */}
+                <div className="lg:w-1/4 h-screen hidden lg:block">
+                    <div className="h-screen">
+                        <RightBar />
+                    </div>
+                </div>
+
+                <div className="fixed right-0 bottom-5 flex flex-col visible md:hidden">
+                    <button className="bg-blue-500 text-white py-2 px-4 rounded-lg m-2">
+                        View Account
+                    </button>
+                    <button className="bg-blue-500 text-white py-2 px-4 rounded-lg m-2">
+                        Mint NFT
+                    </button>
+                </div>
             </div>
-        </div>
+        </>
     )
 }
 

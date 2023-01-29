@@ -1,8 +1,7 @@
 import React, { useState } from "react"
-import BlockCard from "./BlockCard"
+import Card from "./Card"
 
-
-const BlockGallery = () => {
+const Gallery = () => {
     const [isChecked, setIsChecked] = useState(false)
 
     const handleChange = (event) => {
@@ -11,7 +10,7 @@ const BlockGallery = () => {
     return (
         <div className="relative min-h-screen w-full flex flex-col">
             <div className="">
-                <div className="flex items-center py-2  text-zinc-400">
+                <div className="flex items-center py-2 text-xs text-zinc-800 dark:text-zinc-400">
                     <input
                         type="checkbox"
                         className="form-checkbox"
@@ -22,21 +21,21 @@ const BlockGallery = () => {
                 </div>
             </div>
             {/* TODO: pass a list of cards as props and map them here */}
-            <div className="grid grid-cols-4 gap-5">
-                <BlockCard />
-                <BlockCard />
-                <BlockCard />
-                <BlockCard />
-                <BlockCard />
-                <BlockCard />
-                <BlockCard />
-                <BlockCard />
-                <BlockCard />
-                <BlockCard />
-                <BlockCard />
+            <div className="grid gap-5 md:grid-cols-3 lg:grid-cols-5">
+                <Card />
+                <Card />
+                <Card />
+                <Card />
+                <Card />
+                <Card />
+                <Card />
+                <Card />
+                <Card />
+                <Card />
+                <Card />
             </div>
         </div>
     )
 }
 
-export default BlockGallery
+export default Gallery

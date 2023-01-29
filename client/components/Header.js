@@ -1,42 +1,22 @@
-import { useStyle } from "../context/style"
-import { useState, useEffect } from "react"
-
+import React, { useState, useEffect } from "react"
 import { useTheme } from "next-themes"
-import Image from "next/image"
 
 import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md"
 import { BsSearch } from "react-icons/bs"
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon"
+import {AiOutlineCloseCircle} from "react-icons/ai"
 
-import logo from "@/assets/gpt-nft-marketplace-logo.svg"
+import Button from "@/components/Button"
 
 const style = {
-    wrapper: `sticky top-0 z-10 px-4 py-8 w-screen flex flex-col items-center dark:text-white`,
-    wrapper2: `sticky top-0 z-10 px-4 py-2 pb-6 w-screen flex flex-col items-center backdrop-blur-2xl bg-gradient-to-r from-rose-100 via-sky-100 to-white dark:bg-gradient-to-r dark:from-zinc-800 dark:via-gray-900 dark:to-black dark:text-white ease-in duration-200`,
-    heroContainer: `px-4 w-screen mt-2 flex flex-row justify-between`,
-    navBarContainer: `w-screen flex flex-row justify-between mt-0 md:mt-5 invisible md:visible`,
-    headerLogo: `flex items-center justify-start text-black text-md md:text-xl font-lato font-bold text-gray-900 dark:text-teal-400`,
-    searchBar: `basis-2/3 invisible md:visible`,
-    searchForm: `w-full`,
-    searchIcon: `absolute inset-y-0 left-1 flex items-center pl-3 pointer-events-none`,
-    searchInputBox: `block w-full p-3 pl-10 text-sm text-gray-900 rounded-3xl border border-gray-50 dark:border-gray-600 focus:outline-none focus:border-gray-300 dark:focus:border-gray-100 dark:bg-gray-800`,
-    walletSection: `flex justify-end items-center`,
-    userName: `text-xs h-full rounded-3xl flex items-center justify-center min-w-[6rem] min-h-[3rem] text-slate-600 dark:text-gray-50`,
-    userAccountSection: `flex items-center justify-between bg-gray-100 dark:bg-teal-700 rounded-3xl mx-2 px-2 text-[0.9rem] font-semibold cursor-pointer text-slate-900 dark:text-gray-200 hover:text-slate-600 dark:hover:text-teal-400`,
-    connectWalletBtn: `flex items-center justify-between bg-gray-100 dark:bg-teal-800 rounded-3xl mx-2 text-[0.9rem] font-semibold cursor-pointer text-slate-900 dark:text-gray-200 hover:text-slate-600 dark:hover:text-teal-400`,
-    buttonAccent: `px-2 hover:text-white h-full rounded-3xl flex items-center justify-center min-w-[9rem] min-h-[3rem] hover:bg-gradient-to-r from-indigo-400 via-red-300 to-yellow-300 dark:hover:from-teal-800 dark:hover:via-teal-600 dark:hover:to-teal-700`,
-    changeThemeButton: `flex items-center justify-center text-slate-900 rounded-3xl mx-2 cursor-pointer text-slate-900 dark:text-teal-400 hover:text-slate-600 dark:hover:text-slate-600 min-h-[3rem] min-w-[3rem] hover:transition duration-150 hover:bg-[#ffffff50] hover:text-gray-500 stroke-1 dark:hover:bg-teal-900 dark:hover:text-teal-500`,
-
-    nav: `flex-auto flex justify-center items-center invisible md:visible`,
-    navContainer: `flex text-xs text-gray-900 dark:text-teal-400`,
-    navItem: `justify-center px-10 py-3 mt-4 min-w-[10rem] flex items-center font-semibold text-[0.9rem] cursor-pointer rounded-t-lg hover:bg-[#ffffff40] dark:hover:bg-[#00808009] hover:text-gray-700 dark:hover:text-teal-700`,
-    activeNavItem: `bg-gray-50 dark:text-white dark:bg-teal-900 hover:bg-gray-50 dark:hover:bg-teal-900 hover:text-gray-900 dark:hover:text-teal-400`,
+    wrapper: `sticky w-full top-0 left-0 z-40 text-white flex items-center justify-between p-4`,
+    wrapper2: `sticky w-full top-0 left-0 z-40 text-white shadow-xl dark:text-gray-800 flex items-center justify-between p-4 backdrop-blur-sm  bg-gradient-to-tr from-rose-100 via-sky-100 to-white dark:bg-gradient-to-tr dark:from-black dark:to-black`,
 }
 
 const Header = (props) => {
-    const { theme, setTheme } = useTheme()
+    const { theme, setTheme } = useTheme("dark")
     const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark")
-    const { onSearch, search, hideSearch, currentAccount, connectWallet, setPageType, ...rest } =
+    const { onSearch, search, hideSearch, currentAccount, connectWallet, ...rest } =
         props
 
     //auth
@@ -47,23 +27,17 @@ const Header = (props) => {
         }
     }, [currentAccount])
 
-    //toggle
-    const [selectedNav, setSelectedNav] = useState("mint")
-    useEffect(() => {
-        console.log("selectedNav: ", selectedNav)
-    }, [selectedNav])
+    // hamburger menue
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-    //handle sticky header scroll
+    // handle sticky header scroll
     const [headerClass, setHeaderClass] = useState(style.wrapper)
-    const [showHeaderExtraContent, setShowHeaderExtraContent] = useState(true)
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY > 100) {
+            if (window.scrollY > 10) {
                 setHeaderClass(style.wrapper2)
-                setShowHeaderExtraContent(false)
             } else {
                 setHeaderClass(style.wrapper)
-                setShowHeaderExtraContent(true)
             }
         }
 
@@ -75,121 +49,113 @@ const Header = (props) => {
     }, [])
 
     return (
-        <div className={headerClass}>
-            <div className={style.heroContainer}>
-                <div className={style.headerLogo}>
-                    {/* <Image src={logo} alt="GPTastic NFTs" height={20} width={40} /> */}
-                    <h1
-                    
-                        className={`ml-2 leading-4 ${
-                            showHeaderExtraContent ? "visible" : "hidden"
-                        }`}
-                    >
-                        GPTastic NFTs
-                    </h1>
-
-                    <h1
-                        className={`ml-4 text-4xl ${
-                            showHeaderExtraContent ? "hidden" : "visible"
-                        }`}
-                    >
-                        GPTastic NFTs
-                    </h1>
-                </div>
-
-                {/**============================= Search Bar ================== */}
-                {/* TODO: handle search */}
-                <div
-                    className={`${style.searchBar} ${showHeaderExtraContent ? "" : "md:invisible basis-1/3"}`}
-                    // className={style.searchBar}
-                >
-                    <form className={style.searchForm}>
-                        <div class="relative">
-                            <div className={style.searchIcon}>
-                                <BsSearch />
-                            </div>
-                            <input
-                                type="search"
-                                id="search"
-                                onChange={onSearch}
-                                value={search}
-                                className={style.searchInputBox}
-                                placeholder="Search NFTs by keywords"
-                                required
-                            />
+        <header className={headerClass}>
+            <h1 className="text-lg leading-4 text-md md:text-xl font-lato font-extrabold text-transparent bg-clip-text bg-gradient-to-tl from-black via-gray-800 to-amber-600 dark:bg-gradient-to-r dark:from-amber-100 dark:via-amber-200 dark:to-amber-200">
+                GPTastic NFTs
+            </h1>
+            <div className="hidden md:block">
+                <div className="flex items-center">
+                    <form className="flex relative min-h-[2.3rem]">
+                        <div className="absolute inset-y-0 left-1 text-gray-300 flex items-center pl-3 pointer-events-none">
+                            <BsSearch />
                         </div>
+                        <input
+                            type="search"
+                            id="search"
+                            onChange={onSearch}
+                            value={search}
+                            className="text-gray-300 p-1 rounded-3xl mr-20 w-96 block pl-10 text-xs font-mono dark:bg-gray-800"
+                            placeholder="Search NFTs by keywords..."
+                        />
                     </form>
-                </div>
-
-                {/*======================== darkMode ==================================== */}
-                <div className={`${style.changeThemeButton}`}>
-                    {theme === "light" ? (
-                        <MdOutlineDarkMode size={25} onClick={() => toggleTheme()} />
-                    ) : (
-                        <MdOutlineLightMode size={25} onClick={() => toggleTheme()} />
-                    )}
-                </div>
-
-                {/*======================== wallet section ==================================== */}
-                <div className={style.walletSection}>
+                    <div className="flex items-center justify-center rounded-3xl mx-2 cursor-pointer text-slate-900 dark:text-amber-200  dark:hover:text-slate-600 h-[2.5rem] w-[2.5rem] hover:transition duration-150 hover:bg-gray-700 hover:text-gray-200 stroke-1 dark:hover:bg-amber-200 dark:hover:text-black">
+                        {theme === "light" ? (
+                            <MdOutlineDarkMode size={25} onClick={() => toggleTheme()} />
+                        ) : (
+                            <MdOutlineLightMode size={25} onClick={() => toggleTheme()} />
+                        )}
+                    </div>
+                    {/*======================== connect wallet ==================================== */}
                     {currentAccount ? (
-                        <div>
-                            <div className={`${style.userAccountSection}`}>
-                                <Jazzicon diameter={30} seed={jsNumberForAddress(currentAccount)} />
-                                <div className={style.userName}>{userName}</div>
+                        <div className="flex items-center justify-between rounded-3xl mx-2 px-2 font-semibold cursor-pointer text-slate-900 dark:text-gray-200 hover:text-slate-600 bg-gradient-to-b from-teal-500 to-teal-600 ">
+                            <Jazzicon diameter={20} seed={jsNumberForAddress(currentAccount)} />
+                            <div className="text-xs h-full rounded-3xl flex items-center justify-center min-w-[6rem] min-h-[2rem] text-gray-800">
+                                {userName}
                             </div>
                         </div>
                     ) : (
-                        <div
-                            onClick={() => connectWallet()}
-                            className={`${style.connectWalletBtn}`}
-                        >
-                            <div className={style.buttonAccent}>Connect Wallet</div>
+                        <div onClick={() => connectWallet()}>
+                            <Button btnColor={"blue"} btnText={"Connect Wallet"} />
                         </div>
                     )}
                 </div>
             </div>
-            {/*======================== navbar section ==================================== */}
-            {/* <div className={style.navBarContainer}>
-                <div className={style.nav}>
-                    <div className={style.navContainer}>
-                        <div
-                            className={`${style.navItem} ${
-                                selectedNav === "mint" && style.activeNavItem
-                            }`}
-                            onClick={() => {
-                                setSelectedNav("mint")
-                                setPageType("mint")
-                            }}
-                        >
-                            MINT
+            <button
+                className="bg-gray-900 text-white p-2 rounded-lg md:hidden"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+                <svg
+                    className="w-6 h-6"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        d="M3 18H21"
+                        stroke="white"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
+                    <path
+                        d="M3 6H21"
+                        stroke="white"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
+                    <path
+                        d="M3 12H21"
+                        stroke="white"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
+                </svg>
+            </button>
+            <div
+                className={`fixed top-0 right-0 w-6/12 h-full bg-black text-white p-4 flex flex-col ${
+                    isMenuOpen ? "block" : "hidden"
+                }`}
+            >
+                <div className="flex flex-col justify-between mb-4 items-center">
+                    <div className="absolute right-1 flex items-center pr-3 ">
+                        <AiOutlineCloseCircle size={35} onClick={() => setIsMenuOpen(false)} />
+                    </div>
+                    <div className="flex flex-col mt-10 items-end">
+                        <div className="mb-5">
+                            <Button btnColor={"yellow"} btnText={"Toggle Theme"} />
                         </div>
-                        <div
-                            className={`${style.navItem} ${
-                                selectedNav === "buy" && style.activeNavItem
-                            }`}
-                            onClick={() => {
-                                setSelectedNav("buy")
-                                setPageType("buy")
-                            }}
-                        >
-                            BUY
-                        </div>
-                        <div
-                            className={`${style.navItem} ${
-                                selectedNav === "account" && style.activeNavItem
-                            }`}
-                            onClick={() => {
-                                setSelectedNav("account")
-                                setPageType("account")
-                            }}
-                        >
-                            ACCOUNT
-                        </div>
+                        {currentAccount ? (
+                            <div className="flex items-center justify-between bg-gray-100 dark:bg-teal-700 rounded-3xl mx-2 px-2 text-[0.9rem] font-semibold cursor-pointer text-slate-900 dark:text-gray-200 hover:text-slate-600 dark:hover:text-teal-400">
+                                <Jazzicon diameter={30} seed={jsNumberForAddress(currentAccount)} />
+                                <div className="text-xs h-full rounded-3xl flex items-center justify-center min-w-[6rem] min-h-[3rem] text-slate-600 dark:text-gray-50">
+                                    {userName}
+                                </div>
+                            </div>
+                        ) : (
+                            <Button
+                                btnColor={"blue"}
+                                btnText={"Connect Wallet"}
+                                onClick={() => connectWallet()}
+                            />
+                        )}
                     </div>
                 </div>
-            </div> */}
-        </div>
+                <div></div>
+            </div>
+        </header>
     )
 }
+
 export default Header
