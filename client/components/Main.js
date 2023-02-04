@@ -4,6 +4,8 @@ import Head from "next/head"
 import RightBar from "@/components/RightBar"
 import Hero from "@/components/Hero"
 import Gallery from "@/components/Gallery"
+import Button from "@/components/Button"
+
 
 const Main = () => {
     return (
@@ -35,13 +37,16 @@ const Main = () => {
                     </div>
                 </div>
 
-                <div className="fixed right-0 bottom-5 flex flex-col visible md:hidden">
-                    <button className="bg-blue-500 text-white py-2 px-4 rounded-lg m-2">
+                <div className="fixed right-0 bottom-5 flex flex-col justify-start visible md:hidden">
+                    <Button btnColor={"blue"} btnText={" Portfolio"} />
+                    <br/>
+                    <Button btnColor={"blue"} btnText={"Mint NFT"} />
+                    {/* <button className="bg-blue-500 text-white py-2 px-4 rounded-lg m-2">
                         View Account
                     </button>
                     <button className="bg-blue-500 text-white py-2 px-4 rounded-lg m-2">
                         Mint NFT
-                    </button>
+                    </button> */}
                 </div>
             </div>
         </>

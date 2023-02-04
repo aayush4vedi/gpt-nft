@@ -47,7 +47,6 @@ function useProvideAuth() {
             if (typeof window.ethereum === "undefined") return alert("Please install metamask ")
 
             const accounts = await ethereum.request({ method: "eth_accounts" })
-            console.log(`accountssss : ${accounts}`)
 
             if (accounts.length) {
                 setCurrentAccount(accounts[0])

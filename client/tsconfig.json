@@ -17,6 +17,7 @@
         "baseUrl": ".",
         "paths": {
             "@/components/*": ["components/*"],
+            "@/api/*": ["pages/api/*"],
             "@/lib/*": ["lib/*"],
             "@/styles/*": ["styles/*"],
             "@/utils/*": ["utils/*"],
@@ -25,6 +26,6 @@
             "@/assets/*": ["public/assets/*"],
         }
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/Hamburger.js"],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/Hamburger.js", "pages/api/gfts.js"],
     "exclude": ["node_modules"]
 }
