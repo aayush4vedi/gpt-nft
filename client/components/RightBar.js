@@ -62,7 +62,7 @@ const RightBar = () => {
                         <p>5.005 ETH</p>
                     </div>
                 </div>
-                <div class="flex justify-between mt-5">
+                <div className="flex justify-between mt-5">
                     <Button btnColor={"yellow"} btnText={"Collect Now"} />
                     <Button btnColor={"teal"} btnText={"Portfolio"} />
                 </div>

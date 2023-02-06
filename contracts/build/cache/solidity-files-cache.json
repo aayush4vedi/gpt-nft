@@ -32,8 +32,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],
@@ -75,8 +74,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -120,8 +118,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],
@@ -163,8 +160,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -208,8 +204,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -259,8 +254,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],
@@ -302,8 +296,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],
@@ -345,8 +338,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -390,8 +382,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -435,8 +426,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],
@@ -478,8 +468,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -523,8 +512,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -568,8 +556,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],
@@ -611,8 +598,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],
@@ -624,7 +610,7 @@
       ]
     },
     "/Users/aayush/Sandbox/dapps/nft-gpt/contracts/contracts/NftMarketplace.sol": {
-      "lastModificationDate": 1672475398909,
+      "lastModificationDate": 1675534485582,
       "contentHash": "8ca6986d3135b25c42c1dc6c84541113",
       "sourceName": "contracts/NftMarketplace.sol",
       "solcConfig": {
@@ -654,8 +640,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -700,8 +685,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],
@@ -743,8 +727,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -759,6 +742,48 @@
       ],
       "artifacts": [
         "GptNft"
+      ]
+    },
+    "/Users/aayush/Sandbox/dapps/nft-gpt/contracts/contracts/SimpleStorage.sol": {
+      "lastModificationDate": 1675617569105,
+      "contentHash": "f610dc19352f77890bb21f344d2dee48",
+      "sourceName": "contracts/SimpleStorage.sol",
+      "solcConfig": {
+        "version": "0.8.7",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata",
+                "devdoc",
+                "userdoc",
+                "storageLayout",
+                "evm.gasEstimates"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "metadata": {
+            "useLiteralContent": true
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.7"
+      ],
+      "artifacts": [
+        "SimpleStorage"
       ]
     }
   }

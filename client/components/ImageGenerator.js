@@ -2,8 +2,12 @@ import React, { useState } from "react"
 import Image from "next/image"
 
 import { sleep } from "@/lib/libs"
-import {} from "@/api/predictions"
 
+/**
+ * 
+ * @note: documentation here: https://replicate.com/docs/get-started/nextjs
+ * 
+ */
 const ImageGenerator = () => {
     const [prediction, setPrediction] = useState(null)
     const [error, setError] = useState(null)

@@ -24,10 +24,17 @@ async function updateAbi() {
         `${frontEndAbiLocation}GptNft.json`,
         basicNft.interface.format(ethers.utils.FormatTypes.json)
     )
+
+    const simpleStorage = await ethers.getContract("SimpleStorage")
+    fs.writeFileSync(
+        `${frontEndAbiLocation}SimpleStorage.json`,
+        simpleStorage.interface.format(ethers.utils.FormatTypes.json)
+    )
 }
 
 async function updateContractAddresses() {
     const chainId = network.config.chainId.toString()
+    console.log("updating contract address for chainID: ", chainId)
     const nftMarketplace = await ethers.getContract("NftMarketplace")
     const contractAddresses = JSON.parse(fs.readFileSync(frontEndContractsFile, "utf8"))
     if (chainId in contractAddresses) {

@@ -1,5 +1,6 @@
 import { useState, useContext, createContext, useEffect } from "react"
-import { ethers } from "ethers"
+// import { ethers } from "ethers"
+import * as ethers from "ethers"
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon"
 
 const authContext = createContext()
@@ -16,6 +17,16 @@ export const useAuth = () => {
 function useProvideAuth() {
     const [currentAccount, setCurrentAccount] = useState("")
 
+    const [balance, setBalance] = useState("") //TODO:
+    const [isConnected, setIsConnected] = useState(false)
+    const [hasMetamask, setHasMetamask] = useState(false)
+
+    useEffect(() => {
+        if (typeof window.ethereum !== "undefined") {
+            setHasMetamask(true)
+        }
+    })
+
     /**
      * Prompts user to connect their MetaMask wallet
      * @param {*} metamask Injected MetaMask code from the browser
@@ -28,6 +39,15 @@ function useProvideAuth() {
                 })
 
                 setCurrentAccount(accounts[0])
+                setIsConnected(true)
+                const provider = new ethers.providers.Web3Provider(window.ethereum)
+
+                // const provider = new ethers.providers.Web3Provider(window.ethereum)
+                // console.log(">> provider : ", provider.toString())
+                // const { chainId } = await provider.getNetwork()
+                // const balance = await provider.getBalance("ethers.eth")
+                // console.log(">> Balance of this account: ", balance)
+                // setBalance(balance.toString())
             } catch (e) {
                 console.log(e)
             }
@@ -62,7 +82,9 @@ function useProvideAuth() {
     }, [])
 
     return {
+        isConnected,
         currentAccount,
         connectWallet,
+        hasMetamask,
     }
 }
