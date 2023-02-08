@@ -32,7 +32,8 @@
           },
           "metadata": {
             "useLiteralContent": true
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -74,7 +75,8 @@
           },
           "metadata": {
             "useLiteralContent": true
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -118,7 +120,8 @@
           },
           "metadata": {
             "useLiteralContent": true
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -160,7 +163,8 @@
           },
           "metadata": {
             "useLiteralContent": true
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -204,7 +208,8 @@
           },
           "metadata": {
             "useLiteralContent": true
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -254,7 +259,8 @@
           },
           "metadata": {
             "useLiteralContent": true
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -296,7 +302,8 @@
           },
           "metadata": {
             "useLiteralContent": true
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -338,7 +345,8 @@
           },
           "metadata": {
             "useLiteralContent": true
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -382,7 +390,8 @@
           },
           "metadata": {
             "useLiteralContent": true
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -426,7 +435,8 @@
           },
           "metadata": {
             "useLiteralContent": true
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -468,7 +478,8 @@
           },
           "metadata": {
             "useLiteralContent": true
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -512,7 +523,8 @@
           },
           "metadata": {
             "useLiteralContent": true
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -556,7 +568,8 @@
           },
           "metadata": {
             "useLiteralContent": true
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -598,7 +611,8 @@
           },
           "metadata": {
             "useLiteralContent": true
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -610,8 +624,8 @@
       ]
     },
     "/Users/aayush/Sandbox/dapps/nft-gpt/contracts/contracts/NftMarketplace.sol": {
-      "lastModificationDate": 1675534485582,
-      "contentHash": "8ca6986d3135b25c42c1dc6c84541113",
+      "lastModificationDate": 1675887926345,
+      "contentHash": "945e76e467d46a891518f42e4a7a0c3b",
       "sourceName": "contracts/NftMarketplace.sol",
       "solcConfig": {
         "version": "0.8.7",
@@ -640,7 +654,8 @@
           },
           "metadata": {
             "useLiteralContent": true
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -685,7 +700,8 @@
           },
           "metadata": {
             "useLiteralContent": true
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -697,8 +713,8 @@
       ]
     },
     "/Users/aayush/Sandbox/dapps/nft-gpt/contracts/contracts/test/GptNft.sol": {
-      "lastModificationDate": 1672475217881,
-      "contentHash": "c0cfa1807d68df9c1c18fe6e4327c2a4",
+      "lastModificationDate": 1675887850005,
+      "contentHash": "14fefdd68de2aac1191961421acc1231",
       "sourceName": "contracts/test/GptNft.sol",
       "solcConfig": {
         "version": "0.8.7",
@@ -727,7 +743,8 @@
           },
           "metadata": {
             "useLiteralContent": true
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -775,7 +792,8 @@
           },
           "metadata": {
             "useLiteralContent": true
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],

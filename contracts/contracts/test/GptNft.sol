@@ -16,15 +16,15 @@ contract GptNft is ERC721, ERC721URIStorage, Ownable {
 
     Counters.Counter private _tokenIdCounter;
 
-    mapping(uint256 => string) private s_tokenIdToUri; //tokenId -> tokenURI
+    mapping(uint256 => string) private s_tokenIdToUri;  //tokenId -> tokenURI
 
     constructor() ERC721("GptNft", "GFT") {}
 
-    function mintNft(address to, string memory tokenUri) public {
+    function mintNft(string memory tokenUri) public {
         _tokenIdCounter.increment();
         uint256 tokenId = _tokenIdCounter.current();
         s_tokenIdToUri[tokenId] = tokenUri;
-        _safeMint(to, tokenId);
+        _safeMint(msg.sender, tokenId);
         _setTokenURI(tokenId, tokenUri);
         emit NftMinted(tokenId, tokenUri);
     }
@@ -43,7 +43,6 @@ contract GptNft is ERC721, ERC721URIStorage, Ownable {
     }
 
     // The following functions are overrides required by Solidity.
-
     function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
         super._burn(tokenId);
     }

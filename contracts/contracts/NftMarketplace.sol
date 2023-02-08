@@ -108,7 +108,7 @@ contract NftMarketplace is ReentrancyGuard {
         emit ItemCanceled(msg.sender, nftAddress, tokenId);
     }
 
-    //TODO: how to update metadata here?
+    //TODO: how to update metadata here? => just change the ipfs url
     /*
      * @notice Method for updating listing
      * @param nftAddress Address of NFT contract
@@ -166,7 +166,7 @@ contract NftMarketplace is ReentrancyGuard {
     }
 
     /////////////////////
-    // Getter Functions //
+    // Getter Functions//
     /////////////////////
 
     function getListing(

@@ -14,7 +14,7 @@ const style = {
 }
 
 const Header = (props) => {
-    const { theme, setTheme } = useTheme("dark")
+    const { theme, setTheme } = useTheme("light")
     const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark")
     const { onSearch, search, hideSearch, currentAccount, connectWallet, ...rest } =
         props

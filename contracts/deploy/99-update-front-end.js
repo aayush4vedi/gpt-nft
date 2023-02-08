@@ -36,6 +36,7 @@ async function updateContractAddresses() {
     const chainId = network.config.chainId.toString()
     console.log("updating contract address for chainID: ", chainId)
     const nftMarketplace = await ethers.getContract("NftMarketplace")
+
     const contractAddresses = JSON.parse(fs.readFileSync(frontEndContractsFile, "utf8"))
     if (chainId in contractAddresses) {
         if (!contractAddresses[chainId]["NftMarketplace"].includes(nftMarketplace.address)) {
@@ -44,6 +45,25 @@ async function updateContractAddresses() {
     } else {
         contractAddresses[chainId] = { NftMarketplace: [nftMarketplace.address] }
     }
+
+    const basicNft = await ethers.getContract("GptNft")
+    if (chainId in contractAddresses) {
+        if (!contractAddresses[chainId]["GptNft"].includes(basicNft.address)) {
+            contractAddresses[chainId]["GptNft"].push(basicNft.address)
+        }
+    } else {
+        contractAddresses[chainId] = { GptNft: [basicNft.address] }
+    }
+
+    const simpleStorage = await ethers.getContract("SimpleStorage")
+    if (chainId in contractAddresses) {
+        if (!contractAddresses[chainId]["SimpleStorage"].includes(simpleStorage.address)) {
+            contractAddresses[chainId]["SimpleStorage"].push(simpleStorage.address)
+        }
+    } else {
+        contractAddresses[chainId] = { SimpleStorage: [simpleStorage.address] }
+    }
+
     fs.writeFileSync(frontEndContractsFile, JSON.stringify(contractAddresses))
 }
 module.exports.tags = ["all", "frontend"]

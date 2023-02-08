@@ -25,7 +25,6 @@ const style = {
 //     const { search, onSearch } = useSearch()
 //     const { currentAccount, connectWallet, hasMetamask, isConnected } = useAuth()
 
-
 //     return (
 //         <div className={style.wrapper}>
 //             {/* <Header
@@ -53,99 +52,12 @@ const Home = () => {
     const [hasMetamask, setHasMetamask] = useState(false)
     const [signer, setSigner] = useState(undefined)
     const [favoriteNumber, setFavoriteNumber] = useState(0)
+    const [nftTokenCounter, setNftTokenCounter] = useState(0)
 
     const chainString = "31337"
-    const marketplaceAddress = networkMapping[chainString].NftMarketplace[0]
+    const gptNftAddress = networkMapping[chainString].GptNft[0]
+    const marketplaceAddress = networkMapping[chainString].NftMarketplace[1]
     const simpleStorageAddress = networkMapping[chainString].SimpleStorage[0]
-//     const simpleStorageAbi = [
-//     {
-//       "inputs": [
-//         {
-//           "internalType": "string",
-//           "name": "_name",
-//           "type": "string"
-//         },
-//         {
-//           "internalType": "uint256",
-//           "name": "_favoriteNumber",
-//           "type": "uint256"
-//         }
-//       ],
-//       "name": "addPerson",
-//       "outputs": [],
-//       "stateMutability": "nonpayable",
-//       "type": "function"
-//     },
-//     {
-//       "inputs": [
-//         {
-//           "internalType": "string",
-//           "name": "",
-//           "type": "string"
-//         }
-//       ],
-//       "name": "nameToFavoriteNumber",
-//       "outputs": [
-//         {
-//           "internalType": "uint256",
-//           "name": "",
-//           "type": "uint256"
-//         }
-//       ],
-//       "stateMutability": "view",
-//       "type": "function"
-//     },
-//     {
-//       "inputs": [
-//         {
-//           "internalType": "uint256",
-//           "name": "",
-//           "type": "uint256"
-//         }
-//       ],
-//       "name": "people",
-//       "outputs": [
-//         {
-//           "internalType": "uint256",
-//           "name": "favoriteNumber",
-//           "type": "uint256"
-//         },
-//         {
-//           "internalType": "string",
-//           "name": "name",
-//           "type": "string"
-//         }
-//       ],
-//       "stateMutability": "view",
-//       "type": "function"
-//     },
-//     {
-//       "inputs": [],
-//       "name": "retrieve",
-//       "outputs": [
-//         {
-//           "internalType": "uint256",
-//           "name": "",
-//           "type": "uint256"
-//         }
-//       ],
-//       "stateMutability": "view",
-//       "type": "function"
-//     },
-//     {
-//       "inputs": [
-//         {
-//           "internalType": "uint256",
-//           "name": "_favoriteNumber",
-//           "type": "uint256"
-//         }
-//       ],
-//       "name": "store",
-//       "outputs": [],
-//       "stateMutability": "nonpayable",
-//       "type": "function"
-//     }
-//   ]
 
     useEffect(() => {
         if (typeof window.ethereum !== "undefined") {
@@ -166,6 +78,44 @@ const Home = () => {
             }
         } else {
             setIsConnected(false)
+        }
+    }
+
+    async function mintNft() {
+        if (typeof window.ethereum !== "undefined") {
+            const gptNftAddressContract = new ethers.Contract(gptNftAddress, nftAbi, signer)
+            console.log(" ..... gptNftAddressContract: ", gptNftAddressContract)
+            try {
+                const tx = await gptNftAddressContract.mintNft("some.random.image.uri")
+                console.log(" ----------->>> [mintNft] Minted successfully tx: ", tx)
+                console.log(" ----------->>> [mintNft] Emitted events: ", tx.events)
+
+                const tokenURI = await gptNftAddressContract.tokenURI(1)
+                 console.log(" ----------->>> [tokenURI] tokenURI(1): ", tokenURI)
+            } catch (error) {
+                console.log(error)
+            }
+        } else {
+            console.log("Please install MetaMask#2")
+        }
+    }
+
+    async function executeGetTokenCounter() {
+        if (typeof window.ethereum !== "undefined") {
+            const gptNftAddressContract = new ethers.Contract(gptNftAddress, nftAbi, signer)
+            console.log(" ..... gptNftAddressContract: ", gptNftAddressContract)
+            try {
+                const tx = await gptNftAddressContract.getTokenCounter()
+                console.log(
+                    " ----------->>> [executeGetTokenCounter] tx: ",
+                    ethers.utils.formatEther(tx)
+                )
+                setNftTokenCounter(ethers.utils.formatEther(tx))
+            } catch (error) {
+                console.log(error)
+            }
+        } else {
+            console.log("Please install MetaMask#2")
         }
     }
 
@@ -218,8 +168,25 @@ const Home = () => {
         }
     }
 
+    //TODO: remove these-dont work
+
+
+
+
+
+
+
+    const { search, onSearch } = useSearch()
+    const { currentAccount, connectWallet } = useAuth()
+
     return (
         <div>
+            <Header
+                onSearch={onSearch}
+                search={search}
+                currentAccount={currentAccount}
+                connectWallet={connectWallet}
+            />
             {hasMetamask ? (
                 isConnected ? (
                     "Connected! "
@@ -230,12 +197,28 @@ const Home = () => {
                 "Please install metamask"
             )}
 
-            {isConnected ? <button onClick={() => execute()}>Execute</button> : ""}
+            <br></br>
+            {isConnected ? <button onClick={() => execute()}>Execute</button> : "  "}
             {isConnected ? (
                 favoriteNumber !== 0 ? (
-                    <div>{favoriteNumber}</div>
+                    <div>favoriteNumber = {favoriteNumber} </div>
                 ) : (
                     <button onClick={() => retrieve()}>Retrieve</button>
+                )
+            ) : (
+                ""
+            )}
+            <br></br>
+
+            {/* interact with gptNft contract */}
+            {isConnected ? <button onClick={() => mintNft()}>Mint NFT</button> : "  "}
+            {isConnected ? (
+                nftTokenCounter !== 0 ? (
+                    <div>nftTokenCounter = {nftTokenCounter}</div>
+                ) : (
+                    <button onClick={() => executeGetTokenCounter()}>
+                        gptNft.getTokenCounter()
+                    </button>
                 )
             ) : (
                 ""

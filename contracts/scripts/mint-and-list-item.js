@@ -2,12 +2,13 @@ const { ethers, network } = require("hardhat")
 const { moveBlocks } = require("../utils/move-blocks")
 
 const PRICE = ethers.utils.parseEther("0.1")
+const TOKEN_URI = "QmfVMAmNM1kDEBYrC2TPzQDoCRFH6F5tE1e9Mr4FkkR5Xr"
 
 async function mintAndList() {
     const nftMarketplace = await ethers.getContract("NftMarketplace")
     const gptNFT = await ethers.getContract("GptNft")
     console.log("Minting NFT...")
-    const mintTx = await gptNFT.mintNft()
+    const mintTx = await gptNFT.mintNft(TOKEN_URI)
     const mintTxReceipt = await mintTx.wait(1)
     const tokenId = mintTxReceipt.events[0].args.tokenId
     console.log("Approving NFT...")
