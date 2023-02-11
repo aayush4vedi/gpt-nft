@@ -32,8 +32,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],
@@ -75,8 +74,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -120,8 +118,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],
@@ -163,8 +160,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -208,8 +204,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -259,8 +254,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],
@@ -302,8 +296,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],
@@ -345,8 +338,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -390,8 +382,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -435,8 +426,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],
@@ -478,8 +468,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -523,8 +512,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -568,8 +556,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],
@@ -611,8 +598,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],
@@ -624,8 +610,8 @@
       ]
     },
     "/Users/aayush/Sandbox/dapps/nft-gpt/contracts/contracts/NftMarketplace.sol": {
-      "lastModificationDate": 1675887926345,
-      "contentHash": "945e76e467d46a891518f42e4a7a0c3b",
+      "lastModificationDate": 1676152604162,
+      "contentHash": "043f4c0ba4eda7314c8b89283d2c3533",
       "sourceName": "contracts/NftMarketplace.sol",
       "solcConfig": {
         "version": "0.8.7",
@@ -654,8 +640,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -700,8 +685,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],
@@ -743,8 +727,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -792,8 +775,7 @@
           },
           "metadata": {
             "useLiteralContent": true
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],

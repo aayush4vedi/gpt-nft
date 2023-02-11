@@ -19,7 +19,7 @@ const { developmentChains } = require("../../helper-hardhat-config")
               nftMarketplace = nftMarketplaceContract.connect(deployer)
               gptnftContract = await ethers.getContract("GptNft")
               gptnft = await gptnftContract.connect(deployer)
-              await gptnft.mintNft(deployer.address, URI)
+              await gptnft.mintNft(URI)
               await gptnft.approve(nftMarketplaceContract.address, TOKEN_ID)
           })
 

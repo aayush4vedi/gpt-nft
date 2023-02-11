@@ -8,7 +8,7 @@ module.exports = async () => {
         console.log("Writing to front end...")
         await updateContractAddresses()
         await updateAbi()
-        console.log("Front end written!")
+        console.log("\n========================= Front end written! =========================\n")
     }
 }
 

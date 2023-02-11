@@ -24,16 +24,29 @@ contract NftMarketplace is ReentrancyGuard {
         address indexed seller,
         address indexed nftAddress,
         uint256 indexed tokenId,
-        uint256 price
+        uint256 price,
+        uint blockNumber,
+        uint blockTimestamp,
+        bytes32 transactionHash
     );
 
-    event ItemCanceled(address indexed seller, address indexed nftAddress, uint256 indexed tokenId);
+    event ItemCanceled(
+        address indexed seller,
+        address indexed nftAddress,
+        uint256 indexed tokenId,
+        uint blockNumber,
+        uint blockTimestamp,
+        bytes32 transactionHash
+    );
 
     event ItemBought(
         address indexed buyer,
         address indexed nftAddress,
         uint256 indexed tokenId,
-        uint256 price
+        uint256 price,
+        uint blockNumber,
+        uint blockTimestamp,
+        bytes32 transactionHash
     );
 
     ///  @notice nftAddress -> tokenId -> Listing
@@ -92,7 +105,15 @@ contract NftMarketplace is ReentrancyGuard {
             revert NftMarketplace__NotApprovedForMarketplace();
         }
         s_listings[nftAddress][tokenId] = Listing(price, msg.sender);
-        emit ItemListed(msg.sender, nftAddress, tokenId, price);
+        emit ItemListed(
+            msg.sender,
+            nftAddress,
+            tokenId,
+            price,
+            block.number,
+            block.timestamp,
+            keccak256(abi.encodePacked(block.timestamp, block.difficulty, block.coinbase))
+        );
     }
 
     /*
@@ -105,7 +126,14 @@ contract NftMarketplace is ReentrancyGuard {
         uint256 tokenId
     ) external isOwner(nftAddress, tokenId, msg.sender) isListed(nftAddress, tokenId) {
         delete (s_listings[nftAddress][tokenId]);
-        emit ItemCanceled(msg.sender, nftAddress, tokenId);
+        emit ItemCanceled(
+            msg.sender,
+            nftAddress,
+            tokenId,
+            block.number,
+            block.timestamp,
+            keccak256(abi.encodePacked(block.timestamp, block.difficulty, block.coinbase))
+        );
     }
 
     //TODO: how to update metadata here? => just change the ipfs url
@@ -125,7 +153,15 @@ contract NftMarketplace is ReentrancyGuard {
             revert NftMarketplace__PriceMustBeAboveZero();
         }
         s_listings[nftAddress][tokenId].price = newPrice;
-        emit ItemListed(msg.sender, nftAddress, tokenId, newPrice);
+        emit ItemListed(
+            msg.sender,
+            nftAddress,
+            tokenId,
+            newPrice,
+            block.number,
+            block.timestamp,
+            keccak256(abi.encodePacked(block.timestamp, block.difficulty, block.coinbase))
+        );
     }
 
     /*
@@ -148,7 +184,15 @@ contract NftMarketplace is ReentrancyGuard {
         s_proceeds[listedItem.seller] += msg.value;
         delete (s_listings[nftAddress][tokenId]);
         IERC721(nftAddress).safeTransferFrom(listedItem.seller, msg.sender, tokenId);
-        emit ItemBought(msg.sender, nftAddress, tokenId, listedItem.price);
+        emit ItemBought(
+            msg.sender,
+            nftAddress,
+            tokenId,
+            listedItem.price,
+            block.number,
+            block.timestamp,
+            keccak256(abi.encodePacked(block.timestamp, block.difficulty, block.coinbase))
+        );
     }
 
     /*
