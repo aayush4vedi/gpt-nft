@@ -1,8 +1,16 @@
 import React, { useState } from "react"
-import Card from "./Card"
+import { useQuery } from "@apollo/client"
 
-const Gallery = () => {
+import GET_ACTIVE_ITEMS from "../constants/subgraphQueries"
+import Card from "@/components/Card"
+
+const { NFTStorage, File } = require("nft.storage")
+const NEXT_PUBLIC_NFT_STORAGE_KEY = process.env.NEXT_PUBLIC_NFT_STORAGE_KEY
+
+const Gallery = ({chainId, signer}) => {
     const [isChecked, setIsChecked] = useState(false)
+    const { loading, error, data: listedNfts } = useQuery(GET_ACTIVE_ITEMS)
+    
 
     const handleChange = (event) => {
         setIsChecked(event.target.checked)
@@ -20,19 +28,33 @@ const Gallery = () => {
                     <label className="ml-2">Show only my items</label>
                 </div>
             </div>
-            {/* TODO: pass a list of cards as props and map them here */}
             <div className="grid gap-5 md:grid-cols-3 lg:grid-cols-5">
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-                <Card />
+                {loading || !listedNfts ? (
+                <div> Fetching....</div>
+            ) : (
+                listedNfts.activeItems.map((nft) => {
+                    const {
+                        price,
+                        nftAddress,
+                        tokenId,
+                        seller,
+                        blockNumber,
+                        blockTimestamp,
+                        transactionHash,
+                    } = nft
+                    return (
+                        <Card
+                            price = {price}
+                            nftAddress = {nftAddress}
+                            tokenId = {tokenId}
+                            seller = {seller}
+                            blockNumber = {blockNumber}
+                            blockTimestamp = {blockTimestamp}
+                            transactionHash = {transactionHash}
+                        />
+                    )
+                })
+            )}
             </div>
         </div>
     )

@@ -4,7 +4,7 @@ import { useTheme } from "next-themes"
 import { MdOutlineDarkMode, MdOutlineLightMode } from "react-icons/md"
 import { BsSearch } from "react-icons/bs"
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon"
-import {AiOutlineCloseCircle} from "react-icons/ai"
+import { AiOutlineCloseCircle } from "react-icons/ai"
 
 import Button from "@/components/Button"
 
@@ -16,8 +16,19 @@ const style = {
 const Header = (props) => {
     const { theme, setTheme } = useTheme("light")
     const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark")
-    const { onSearch, search, hideSearch, currentAccount, connectWallet, ...rest } =
-        props
+    const {
+        onSearch,
+        search,
+        hideSearch,
+        isConnected,
+        hasMetamask,
+        currentAccount,
+        signer,
+        accountBalance,
+        chainId,
+        connect,
+        ...rest
+    } = props
 
     //auth
     const [userName, setUserName] = useState()
@@ -84,7 +95,7 @@ const Header = (props) => {
                             </div>
                         </div>
                     ) : (
-                        <div onClick={() => connectWallet()}>
+                        <div onClick={() => connect()}>
                             <Button btnColor={"blue"} btnText={"Connect Wallet"} />
                         </div>
                     )}

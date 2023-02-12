@@ -11,6 +11,10 @@ module.exports = {
                 protocol: "https",
                 hostname: "replicate.delivery",
             },
+            {
+                protocol: "https",
+                hostname: "ipfs.io",
+            },
         ],
     },
 }

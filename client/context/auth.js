@@ -1,6 +1,5 @@
 import { useState, useContext, createContext, useEffect } from "react"
-// import { ethers } from "ethers"
-import * as ethers from "ethers"
+import { ethers, utils } from "ethers"
 import Jazzicon, { jsNumberForAddress } from "react-jazzicon"
 
 const authContext = createContext()
@@ -15,76 +14,87 @@ export const useAuth = () => {
 }
 
 function useProvideAuth() {
-    const [currentAccount, setCurrentAccount] = useState("")
-
-    const [balance, setBalance] = useState("") //TODO:
     const [isConnected, setIsConnected] = useState(false)
     const [hasMetamask, setHasMetamask] = useState(false)
+    const [currentAccount, setCurrentAccount] = useState()
+    const [signer, setSigner] = useState(undefined)
+    const [accountBalance, setAccountBalance] = useState(0)
+    const [chainId, setChainId] = useState("31337")
 
-    useEffect(() => {
-        if (typeof window.ethereum !== "undefined") {
-            setHasMetamask(true)
-        }
-    })
+    // useEffect(() => {
+    //     if (typeof window.ethereum !== "undefined") {
+    //         setHasMetamask(true)
+    //     }
+    // })
 
-    /**
-     * Prompts user to connect their MetaMask wallet
-     * @param {*} metamask Injected MetaMask code from the browser
-     */
-    const connectWallet = async () => {
-        if (typeof window.ethereum !== "undefined") {
-            try {
-                const accounts = await ethereum.request({
-                    method: "eth_requestAccounts",
-                })
-
-                setCurrentAccount(accounts[0])
-                setIsConnected(true)
-                const provider = new ethers.providers.Web3Provider(window.ethereum)
-
-                // const provider = new ethers.providers.Web3Provider(window.ethereum)
-                // console.log(">> provider : ", provider.toString())
-                // const { chainId } = await provider.getNetwork()
-                // const balance = await provider.getBalance("ethers.eth")
-                // console.log(">> Balance of this account: ", balance)
-                // setBalance(balance.toString())
-            } catch (e) {
-                console.log(e)
-            }
-        } else {
-            return alert("Please install metamask ")
-        }
-    }
-
-    //TODO: Do I really need this?
-    /**
-     * Checks if MetaMask is installed and an account is connected
-     * @param {*} metamask Injected MetaMask code from the browser
-     * @returns
-     */
     const checkIfWalletIsConnected = async () => {
         try {
             if (typeof window.ethereum === "undefined") return alert("Please install metamask ")
 
+            setHasMetamask(true)
             const accounts = await ethereum.request({ method: "eth_accounts" })
 
             if (accounts.length) {
                 setCurrentAccount(accounts[0])
+                setIsConnected(true)
+                const provider = new ethers.providers.Web3Provider(window.ethereum)
+                setSigner(provider.getSigner())
+                const { chainId } = await provider.getNetwork()
+                if (chainId) {
+                    setChainId(parseInt(chainId).toString())
+                }
             }
+            
         } catch (error) {
             console.error(error)
             throw new Error("No ethereum object.")
         }
     }
-
     useEffect(() => {
         checkIfWalletIsConnected()
     }, [])
 
+    const connect = async () => {
+        if (typeof window.ethereum !== "undefined") {
+            setHasMetamask(true)
+            try {
+                await ethereum.request({ method: "eth_requestAccounts" })
+                setIsConnected(true)
+                const provider = new ethers.providers.Web3Provider(window.ethereum)
+                setSigner(provider.getSigner())
+
+                const accounts = await ethereum.request({
+                    method: "eth_requestAccounts",
+                })
+                if (accounts.length) {
+                    setIsConnected(true)
+                    setCurrentAccount(accounts[0])
+                }
+
+                const { chainId } = await provider.getNetwork()
+                if (chainId) {
+                    setChainId(parseInt(chainId).toString())
+                }
+
+                const balance = await provider.getBalance("ethers.eth")
+                const balanceInEth = utils.formatEther(balance)
+                setAccountBalance(balanceInEth.toString())
+            } catch (e) {
+                console.log(e)
+            }
+        } else {
+            setIsConnected(false)
+            return alert("Please install metamask ")
+        }
+    }
+
     return {
         isConnected,
-        currentAccount,
-        connectWallet,
         hasMetamask,
+        currentAccount,
+        signer,
+        accountBalance,
+        chainId,
+        connect,
     }
 }
