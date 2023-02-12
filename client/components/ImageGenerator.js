@@ -7,6 +7,11 @@ import { sleep } from "@/lib/libs"
  * 
  * @note: documentation here: https://replicate.com/docs/get-started/nextjs
  * 
+ * 1. get image url from here
+ * 2. push it on ipfs -> show on UI
+ * 3. if the user submits nft -> create a metadata.json with this image as url 
+ * 4. push this metadata to ipfs
+ * 
  */
 const ImageGenerator = () => {
     const [prediction, setPrediction] = useState(null)

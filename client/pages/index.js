@@ -1,5 +1,6 @@
 import { useSearch } from "@/context/search"
 import { useAuth } from "@/context/auth"
+import { useQuery } from "@apollo/client"
 
 import Header from "@/components/Header"
 import Main from "@/components/Main"
@@ -13,9 +14,13 @@ import nftAbi from "../constants/GptNft.json"
 import nftMarketplaceAbi from "../constants/NftMarketplace.json"
 import simpleStorageAbi from "../constants/SimpleStorage.json"
 import networkMapping from "../constants/networkMapping.json"
+import GET_ACTIVE_ITEMS from "../constants/subgraphQueries"
 
 import { ethers } from "ethers"
 import { useEffect, useState } from "react"
+
+const { NFTStorage, File } = require("nft.storage")
+const NEXT_PUBLIC_NFT_STORAGE_KEY = process.env.NEXT_PUBLIC_NFT_STORAGE_KEY
 
 const style = {
     wrapper: `h-100vh w-100vw select-none flex flex-col bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-rose-100 via-sky-100 to-white dark:bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] dark:from-[#2c2203] dark:via-gray-900 dark:to-black`,
@@ -54,6 +59,11 @@ const Home = () => {
     const [favoriteNumber, setFavoriteNumber] = useState(0)
     const [nftTokenCounter, setNftTokenCounter] = useState(0)
 
+    const [ipfsUrl, setIpfsUrl] = useState(null)
+    const [nftData, setNftData] = useState(null)
+
+    const { loading, error, data: listedNfts } = useQuery(GET_ACTIVE_ITEMS)
+
     const chainString = "31337"
     const gptNftAddress = networkMapping[chainString].GptNft[0]
     const marketplaceAddress = networkMapping[chainString].NftMarketplace[1]
@@ -64,6 +74,44 @@ const Home = () => {
             setHasMetamask(true)
         }
     })
+
+    async function getRemotePngAsFile(url) {
+        const response = await fetch(url)
+        const arrayBuffer = await response.arrayBuffer()
+        const blob = new Blob([new Uint8Array(arrayBuffer)], { type: "image/png" })
+        return new File([blob], "image.png", { type: "image/png" })
+    }
+
+    async function storeNFT() {
+        const imageUrl =
+            "https://ipfs.io/ipfs/bafybeibd3nuryjpflpvftsx5ps3d4rr4qjp63xtedtigtjfu7cgtj7o24e/headshot.png"
+        const imageFile = await getRemotePngAsFile(imageUrl)
+
+        const nftstorage = new NFTStorage({ token: NEXT_PUBLIC_NFT_STORAGE_KEY })
+        console.log(`Uploading test-image to IPFS!`)
+        const response = await nftstorage.store({
+            image: imageFile,
+            name: "test-name",
+            description: "test-description",
+        })
+
+        const { nft, url } = response
+        console.log(`Uploading DONE: nft = ${nft}`)
+        console.log(`Uploading DONE: url = ${url}`)
+        /* 
+        original URL: ipfs://bafyreibqwyckt5zqj2l3svnccy4wodtbdw2duei4rk7yqmhda42rp2kqq4/metadata.json
+        convert it to: https://ipfs.io/ipfs/bafyreibqwyckt5zqj2l3svnccy4wodtbdw2duei4rk7yqmhda42rp2kqq4/metadata.json
+        */
+        const genericUrl = url.replace("ipfs://", "https://ipfs.io/ipfs/")
+        setIpfsUrl(genericUrl)
+        console.log("=============>>>>>>>>>>>>> url: ", genericUrl)
+
+        const data = await fetch(genericUrl)
+        console.log("=============>>>>>>>>>>>>> data: ", data)
+        const json = await data.json()
+        console.log("=============>>>>>>>>>>>>> json: ", json)
+        setNftData(json)
+    }
 
     async function connect() {
         if (typeof window.ethereum !== "undefined") {
@@ -91,7 +139,7 @@ const Home = () => {
                 console.log(" ----------->>> [mintNft] Emitted events: ", tx.events)
 
                 const tokenURI = await gptNftAddressContract.tokenURI(1)
-                 console.log(" ----------->>> [tokenURI] tokenURI(1): ", tokenURI)
+                console.log(" ----------->>> [tokenURI] tokenURI(1): ", tokenURI)
             } catch (error) {
                 console.log(error)
             }
@@ -170,12 +218,6 @@ const Home = () => {
 
     //TODO: remove these-dont work
 
-
-
-
-
-
-
     const { search, onSearch } = useSearch()
     const { currentAccount, connectWallet } = useAuth()
 
@@ -196,7 +238,6 @@ const Home = () => {
             ) : (
                 "Please install metamask"
             )}
-
             <br></br>
             {isConnected ? <button onClick={() => execute()}>Execute</button> : "  "}
             {isConnected ? (
@@ -209,7 +250,6 @@ const Home = () => {
                 ""
             )}
             <br></br>
-
             {/* interact with gptNft contract */}
             {isConnected ? <button onClick={() => mintNft()}>Mint NFT</button> : "  "}
             {isConnected ? (
@@ -222,6 +262,57 @@ const Home = () => {
                 )
             ) : (
                 ""
+            )}
+            <button onClick={() => storeNFT()}>Upload to IPFS</button>
+            {ipfsUrl ? (
+                <div>
+                    IPFS URL: {ipfsUrl}
+                    {nftData?.name ? <div>NFT.name = {nftData.name}</div> : ""}
+                    {nftData?.description ? <div>NFT.description = {nftData.description}</div> : ""}
+                    {nftData?.image ? (
+                        <img src = {nftData.image.replace("ipfs://", "https://ipfs.io/ipfs/")}/>
+                        // <img src = "https://ipfs.io/ipfs/QmSsYRx3LpDAb1GZQm7zZ1AuHZjfbPkD6J7s9r41xu1mf8"/>
+                    ) : (
+                        ""
+                    )}
+                </div>
+            ) : (
+                ""
+            )}
+            {/* fetch active items from the-graph */}
+            <div>
+                <b>Active Items From the graph : </b>
+            </div>
+            {loading || !listedNfts ? (
+                <div> Fetching....</div>
+            ) : (
+                listedNfts.activeItems.map((nft) => {
+                    console.log(`NFT : ${nft}`)
+                    const {
+                        price,
+                        nftAddress,
+                        tokenId,
+                        seller,
+                        blockNumber,
+                        blockTimestamp,
+                        transactionHash,
+                    } = nft
+                    return (
+                        <div>
+                            <ul>
+                                <li> - price : {price}</li>
+                                <li> - nftAddress : {nftAddress}</li>
+                                <li> - tokenId : {tokenId}</li>
+                                <li> - seller : {seller}</li>
+                                <li> - blockNumber : {blockNumber}</li>
+                                <li> - blockTimestamp : {blockTimestamp}</li>
+                                <li> - transactionHash : {transactionHash}</li>
+                            </ul>
+                            <br></br>
+                            <br></br>
+                        </div>
+                    )
+                })
             )}
         </div>
     )
