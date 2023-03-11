@@ -15,7 +15,7 @@ const MintAndList = (props) => {
     const { isConnected, hasMetamask, currentAccount, signer, chainId } = props
     // TODO: generate Image & set uri dynamically
     const URI =
-        "https://replicate.delivery/pbxt/945CZcbqr1rdBhrPQDc7ODFBGUKHx3RqwvtRAF8nx8eBA3OIA/out-0.png"
+        "https://replicate.delivery/pbxt/PzAfLIzVzfrVK08E55g7LRyGePHR38tp6W2emnEiuVCF27ZCB/out-0.png"
 
     const [title, setTitle] = useState("")
     const [price, setPrice] = useState(0.05)

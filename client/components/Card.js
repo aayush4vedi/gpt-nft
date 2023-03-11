@@ -20,8 +20,10 @@ const Card = ({
     transactionHash,
 }) => {
     const { chainId, signer } = useAuth()
-    const gptNftAddress = networkMapping[chainId].GptNft[0] // "0xb80251dE1fa6d389538E33D192FaeeBc090C755e"
+    const gptNftAddress = "0xb80251dE1fa6d389538E33D192FaeeBc090C755e"
+    // const gptNftAddress = networkMapping[chainId].GptNft[0] // "0xb80251dE1fa6d389538E33D192FaeeBc090C755e"
 
+// 
     const [tokenUri, setTokenUri] = useState("")
     const [nftData, setNftData] = useState(null)
     const [imageSrc, setImageSrc] = useState("/assets/nft-image-placeholder.png")

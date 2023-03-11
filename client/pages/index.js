@@ -32,17 +32,7 @@ const Home = () => {
 
     return (
         <div className={style.wrapper}>
-            <Header
-                onSearch={onSearch}
-                search={search}
-                isConnected={isConnected}
-                hasMetamask={hasMetamask}
-                currentAccount={currentAccount}
-                signer={signer}
-                accountBalance={accountBalance}
-                chainId={chainId}
-                connect={connect}
-            />
+            <Header/>
             <MintAndList
                 isConnected={isConnected}
                 hasMetamask={hasMetamask}
@@ -51,8 +41,8 @@ const Home = () => {
                 chainId={chainId}
             />
             <Gallery />
-            {/* <Main /> */}
-            {/* <Footer />
+            <Main />
+             <Footer />
             <FormPopup>
                 <form>
                     <input type="text" placeholder="Name" className="p-2 rounded" />
@@ -60,7 +50,7 @@ const Home = () => {
                     <button className="btn bg-yellow text-zinc-800 rounded">Submit</button>
                 </form>
             </FormPopup>
-            <ImageGenerator /> */}
+            <ImageGenerator /> 
         </div>
     )
 }

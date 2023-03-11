@@ -21,11 +21,11 @@ function useProvideAuth() {
     const [accountBalance, setAccountBalance] = useState(0)
     const [chainId, setChainId] = useState("31337")
 
-    // useEffect(() => {
-    //     if (typeof window.ethereum !== "undefined") {
-    //         setHasMetamask(true)
-    //     }
-    // })
+    useEffect(() => {
+        if (typeof window.ethereum !== "undefined") {
+            setHasMetamask(true)
+        }
+    })
 
     const checkIfWalletIsConnected = async () => {
         try {
@@ -33,6 +33,7 @@ function useProvideAuth() {
 
             setHasMetamask(true)
             const accounts = await ethereum.request({ method: "eth_accounts" })
+            console.log("----------- accounts: ", accounts)
 
             if (accounts.length) {
                 setCurrentAccount(accounts[0])
